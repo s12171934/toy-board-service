@@ -1,4 +1,4 @@
-### Config file
+### Spring config server config file
 ```
 port: [PORT]
 

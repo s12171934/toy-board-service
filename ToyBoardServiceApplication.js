@@ -1,7 +1,7 @@
 (async function(){
   const express = require('express');
   const boardRoutes = require('./src/routes/BoardRoutes');
-  const config = await require('./src/config/springConfigClient');
+  const config = await require('./src/config/SpringConfigClient');
   const eureka = require('./src/config/EurekaClientConfig');
   
   const app = express();

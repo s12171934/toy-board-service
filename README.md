@@ -1,5 +1,5 @@
 ### Config file
-
+```
 port: [PORT]
 
 eureka: 
@@ -10,3 +10,4 @@ eureka:
 
   server:
     host: [EUREKA_SERVER_URL]
+```

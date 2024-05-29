@@ -1,8 +1,9 @@
 (async function(){
   const express = require('express');
   const boardRoutes = require('./src/routes/BoardRoutes');
-  const config = await require('./src/config/SpringConfigClient');
   const eureka = require('./src/config/EurekaClientConfig');
+  const config = await require('./src/config/SpringConfigClient');
+  const sequelize = await require('./src/config/SequelizeConfig');
   
   const app = express();
 
@@ -25,6 +26,8 @@
   const eurekaClient = eureka.createEurekaClient(config);
   eurekaClient.start();
 
-  
+  //sequelize 설정
+  sequelize.sync().then(() => console.log('Database synced'));
+
   module.exports = app;
 })();

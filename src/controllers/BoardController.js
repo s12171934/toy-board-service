@@ -5,8 +5,9 @@ const createBoard = (req, res) => {
   res.status(201).json(newBoard);
 }
 
-const getBoardById = (req, res) => {
-  const board = boardService.getBoardById(req);
+const getBoardById = async (req, res) => {
+  const board = await boardService.getBoardById(req);
+  console.log(board);
 
   if (board) {
     res.status(200).json(board);
@@ -16,8 +17,8 @@ const getBoardById = (req, res) => {
   }
 }
 
-const getAllBoard = (req, res) => {
-  const boards = boardService.getAllBoard(req);
+const getAllBoard = async (req, res) => {
+  const boards = await boardService.getAllBoard(req);
 
   if (boards) {
     res.status(200).json(boards);
@@ -45,4 +46,4 @@ module.exports = {
   getAllBoard,
   editBoard,
   deleteBoard,
-}
+};

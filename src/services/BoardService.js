@@ -1,29 +1,49 @@
-const boardModel = require('../models/BoardModel');
+const Board = require('../models/Board');
 
 const createBoard = (req) => {
   const boardData = req.body;
-  return boardModel.createBoard(boardData);
+  Board.create(boardData);
+  return boardData;
 };
 
 const getBoardById = (req) => {
   const boardId = parseInt(req.params.id);
-  return boardModel.getBoardById(boardId);
+  return Board.findByPk(boardId).then(board => {
+    return board
+  });
 };
 
 const getAllBoard = (req) => {
   const page = parseInt(req.params.page);
-  return boardModel.getAllBoard(page, 10);
+  return Board.findAll({
+    order: [
+      ['id','asc']
+    ],
+    offset: (page - 1) * 3,
+    limit: 3
+  }).then(boards => {
+    return boards
+  });
 };
 
 const editBoard = (req) => {
   const boardId = parseInt(req.params.id);
   const boardData = req.body;
-  return boardModel.editBoard(boardData, boardId);
+  Board.update(boardData, {
+    where: {
+      id: boardId
+    } 
+  });
+  return boardData;
 };
 
 const deleteBoard = (req) => {
   const boardId = parseInt(req.params.id);
-  boardModel.deleteBoard(boardId);
+  Board.destroy({
+    where: {
+      id: boardId
+    }
+  });
 };
 
 module.exports = {
@@ -32,4 +52,4 @@ module.exports = {
   getAllBoard,
   editBoard,
   deleteBoard,
-}
+};

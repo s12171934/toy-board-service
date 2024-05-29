@@ -10,4 +10,10 @@ eureka:
 
   server:
     host: [EUREKA_SERVER_URL]
+
+postgreSQL:
+  database: [DATABASE]
+  username: [DB_USERNAME]
+  password: [DB_PASSWORD]
+  host: [HOST_NAME]
 ```

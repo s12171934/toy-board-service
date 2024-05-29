@@ -1,12 +1,14 @@
 const Sequelize = require("sequelize");
-const config = {
-  'postgreSQL.database' : 'MyBoard',
-  'postgreSQL.username' : 'user1',
-  'postgreSQL.password' : 'myBoard1!',
-  'postgreSQL.host' : 'localhost',
-};
+const { getConfigData } = require("./SpringConfigClient");
 
-const sequelize = new Sequelize(
+let sequelize;
+
+const initSequelize = async () => {
+  if(sequelize) return sequelize;
+
+  const config = await getConfigData();
+
+  sequelize = new Sequelize(
     config["postgreSQL.database"],
     config["postgreSQL.username"],
     config["postgreSQL.password"],
@@ -16,4 +18,7 @@ const sequelize = new Sequelize(
     }
   );
 
-module.exports = sequelize;
+  return sequelize;
+};
+
+module.exports = { initSequelize };

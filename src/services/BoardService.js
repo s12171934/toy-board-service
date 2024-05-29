@@ -1,19 +1,22 @@
-const Board = require('../models/Board');
+const { setBoard } = require('../models/Board');
 
-const createBoard = (req) => {
+const createBoard = async (req) => {
+  const Board = await setBoard();
   const boardData = req.body;
   Board.create(boardData);
   return boardData;
 };
 
-const getBoardById = (req) => {
+const getBoardById = async (req) => {
+  const Board = await setBoard();
   const boardId = parseInt(req.params.id);
   return Board.findByPk(boardId).then(board => {
     return board
   });
 };
 
-const getAllBoard = (req) => {
+const getAllBoard = async (req) => {
+  const Board = await setBoard();
   const page = parseInt(req.params.page);
   return Board.findAll({
     order: [
@@ -26,7 +29,8 @@ const getAllBoard = (req) => {
   });
 };
 
-const editBoard = (req) => {
+const editBoard = async (req) => {
+  const Board = await setBoard();
   const boardId = parseInt(req.params.id);
   const boardData = req.body;
   Board.update(boardData, {
@@ -37,7 +41,8 @@ const editBoard = (req) => {
   return boardData;
 };
 
-const deleteBoard = (req) => {
+const deleteBoard = async (req) => {
+  const Board = await setBoard();
   const boardId = parseInt(req.params.id);
   Board.destroy({
     where: {

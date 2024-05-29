@@ -1,26 +1,34 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/SequelizeConfig");
+const { initSequelize } = require("../config/SequelizeConfig");
 
-const Board = sequelize.define("Board", {
-    title: {
-      type: DataTypes.STRING,
-    },
+let Board;
 
-    writer: {
-      type: DataTypes.STRING,
-    },
+const setBoard = async () => {
+  if(Board) return Board
 
-    content: {
-      type: DataTypes.TEXT,
-    },
+  const sequelize = await initSequelize(); 
+  return Board = sequelize.define("Board", {
+      title: {
+        type: DataTypes.STRING,
+      },
+  
+      writer: {
+        type: DataTypes.STRING,
+      },
+  
+      content: {
+        type: DataTypes.TEXT,
+      },
+  
+      viewCount: {
+        type: DataTypes.INTEGER,
+      },
+  
+      recomendCount: {
+        type: DataTypes.INTEGER,
+      },
+    });
+}
 
-    viewCount: {
-      type: DataTypes.INTEGER,
-    },
 
-    recomendCount: {
-      type: DataTypes.INTEGER,
-    },
-  });
-
-module.exports = Board;
+module.exports = { setBoard };

@@ -1,9 +1,13 @@
 const axios = require('axios');
 
-const getConfigFromServer = async () => {
+let config;
+
+const getConfigData = async () => {
+  if(config) return config;
+
   try {
     const response = await axios.get('http://admin:admin1234@localhost:9000/board/dev');
-    const config = response.data.propertySources[0].source;
+    config = response.data.propertySources[0].source;
     return config;
   }
   catch (error) {
@@ -11,4 +15,4 @@ const getConfigFromServer = async () => {
   }
 };
 
-module.exports = getConfigFromServer();
+module.exports = { getConfigData };

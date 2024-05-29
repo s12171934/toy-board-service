@@ -2,9 +2,10 @@
   const express = require('express');
   const boardRoutes = require('./src/routes/BoardRoutes');
   const eureka = require('./src/config/EurekaClientConfig');
-  const config = await require('./src/config/SpringConfigClient');
-  const sequelize = await require('./src/config/SequelizeConfig');
-  
+  const { getConfigData } = require('./src/config/SpringConfigClient');
+  const { initSequelize } = require('./src/config/SequelizeConfig');
+
+  const config = await getConfigData();
   const app = express();
 
   //body-parser 대체
@@ -27,7 +28,8 @@
   eurekaClient.start();
 
   //sequelize 설정
-  sequelize.sync().then(() => console.log('Database synced'));
+  const sequelize = await initSequelize();
+  sequelize.sync();
 
   module.exports = app;
 })();

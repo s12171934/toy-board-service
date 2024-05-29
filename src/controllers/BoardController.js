@@ -1,7 +1,7 @@
 const boardService = require('../services/BoardService');
 
-const createBoard = (req, res) => {
-  const newBoard = boardService.createBoard(req);
+const createBoard = async (req, res) => {
+  const newBoard = await boardService.createBoard(req);
   res.status(201).json(newBoard);
 }
 
@@ -28,8 +28,8 @@ const getAllBoard = async (req, res) => {
   }
 }
 
-const editBoard = (req, res) => {
-  const newBoard = boardService.editBoard(req);
+const editBoard = async (req, res) => {
+  const newBoard = await boardService.editBoard(req);
 
   res.status(200).json(newBoard);
 }

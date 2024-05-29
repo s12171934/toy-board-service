@@ -56,7 +56,7 @@ const deleteAllBoardsByUser = async (req) => {
   const username = JSON.parse(req.headers.passport).username;
   Board.destroy({
     where: {
-      id: username
+      writer: username
     }
   });
 }

@@ -61,14 +61,20 @@ const editBoard = async (req, res) => {
 
 const deleteBoard = async (req, res) => {
   const username = await passportUsername.checkUsername(req);
-  boardService.deleteBoard(req);
 
   if (username) {
+    boardService.deleteBoard(req);
     res.status(201).json(res.params.id);
   }
   else {
     res.status(404).json({message: 'User not found'});
   }
+}
+
+const deleteAllBoardsByUser = (req, res) => {
+  boardService.deleteAllBoardsByUser(req);
+
+  res.status(201).json(JSON.parse(req.headers.passport).username);
 }
 
 module.exports = {
@@ -77,4 +83,5 @@ module.exports = {
   getAllBoard,
   editBoard,
   deleteBoard,
+  deleteAllBoardsByUser,
 };

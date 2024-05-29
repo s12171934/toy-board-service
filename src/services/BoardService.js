@@ -51,10 +51,21 @@ const deleteBoard = async (req) => {
   });
 };
 
+const deleteAllBoardsByUser = async (req) => {
+  const Board = await setBoard();
+  const username = JSON.parse(req.headers.passport).username;
+  Board.destroy({
+    where: {
+      id: username
+    }
+  });
+}
+
 module.exports = {
   createBoard,
   getBoardById,
   getAllBoard,
   editBoard,
   deleteBoard,
+  deleteAllBoardsByUser,
 };

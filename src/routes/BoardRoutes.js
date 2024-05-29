@@ -10,5 +10,6 @@ router.get('/all/:page', boardController.getAllBoard);
 router.put('/:id', boardController.editBoard);
 
 router.delete('/:id', boardController.deleteBoard);
+router.delete('/all/:username', boardController.deleteAllBoardsByUser);
 
 module.exports = router;

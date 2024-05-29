@@ -1,11 +1,13 @@
 (async function(){
   const express = require('express');
   const boardRoutes = require('./src/routes/BoardRoutes');
-  const eureka = require('./src/config/EurekaClientConfig');
+  const { createEurekaClient } = require('./src/config/EurekaClientConfig');
   const { getConfigData } = require('./src/config/SpringConfigClient');
   const { initSequelize } = require('./src/config/SequelizeConfig');
+  const { setBoard } = require('./src/models/Board');
 
   const config = await getConfigData();
+  
   const app = express();
 
   //body-parser 대체
@@ -24,11 +26,12 @@
   });
 
   //eureka client 설정
-  const eurekaClient = eureka.createEurekaClient(config);
+  const eurekaClient = await createEurekaClient();
   eurekaClient.start();
 
   //sequelize 설정
   const sequelize = await initSequelize();
+  await setBoard();
   sequelize.sync();
 
   module.exports = app;

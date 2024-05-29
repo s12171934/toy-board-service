@@ -7,7 +7,7 @@ const setBoard = async () => {
   if(Board) return Board
 
   const sequelize = await initSequelize(); 
-  return Board = sequelize.define("Board", {
+  Board = sequelize.define("Board", {
       title: {
         type: DataTypes.STRING,
       },
@@ -28,6 +28,8 @@ const setBoard = async () => {
         type: DataTypes.INTEGER,
       },
     });
+
+  return Board;  
 }
 
 

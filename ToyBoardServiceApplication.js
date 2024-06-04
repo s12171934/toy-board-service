@@ -5,6 +5,7 @@
   const { getConfigData } = require('./src/config/SpringConfigClient');
   const { initSequelize } = require('./src/config/SequelizeConfig');
   const { setBoard } = require('./src/models/Board');
+  const KafkaConsumer = require('./src/config/KafkaConsumer');
 
   const config = await getConfigData();
   
@@ -33,6 +34,14 @@
   const sequelize = await initSequelize();
   await setBoard();
   sequelize.sync();
+
+  //kafka listener 시작
+  KafkaConsumer.consumeReportAlert()
+    .then(() => console.log('Started consuming report messages from Kafka'))
+    .catch((error) => console.error('Error consuming report messages:', error));
+  KafkaConsumer.consumeUserDelete()
+    .then(() => console.log('Started consuming user messages from Kafka'))
+    .catch((error) => console.error('Error consuming user messages:', error));
 
   module.exports = app;
 })();

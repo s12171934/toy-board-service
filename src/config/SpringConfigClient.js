@@ -1,18 +1,22 @@
-const axios = require('axios');
+//Spring Config Server에서 GITHUB repo의 board-dev.yml의 config를 가져옴
+const axios = require("axios");
 
 let config;
 
-const getConfigData = async () => {
-  if(config) return config;
-
-  try {
-    const response = await axios.get('http://admin:admin1234@localhost:9000/board/dev');
-    config = response.data.propertySources[0].source;
+const getConfig = async () => {
+  if (config) {
     return config;
   }
-  catch (error) {
-    console.error('Error fetching config', error);
+
+  try {
+    const response = await axios.get(
+      "http://admin:admin1234@localhost:9000/board/dev"
+    );
+    config = response.data.propertySources[0].source;
+    return config;
+  } catch (error) {
+    console.error("Error fetching config", error);
   }
 };
 
-module.exports = { getConfigData };
+module.exports = { getConfig };

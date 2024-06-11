@@ -1,8 +1,8 @@
 const axios = require('axios');
-const { createEurekaClient } = require('../config/EurekaClientConfig');
+const { getEurekaClient } = require('../config/EurekaClientConfig');
 
 const checkUsername = async (req) => {
-  const eurekaClient = await createEurekaClient();
+  const eurekaClient = await getEurekaClient();
   const passportUsername = JSON.parse(req.headers.passport).username;
   const writer = req.body.writer;
 
@@ -12,6 +12,7 @@ const checkUsername = async (req) => {
   if (passportUsername != writer) return null;
 
   try {
+    //eurka server에서 lb정보 받아오기 위한 통신
     const instances = await eurekaClient.getInstancesByAppId('USER-SERVICE');
     const randomInstance = instances[Math.floor(Math.random() * instances.length)];
     const serviceUrl = `http://${randomInstance.hostName}:${randomInstance.port.$}/user`;

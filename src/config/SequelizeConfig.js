@@ -1,12 +1,15 @@
+//DB와 통신을 위한 Sequelize 설정
 const Sequelize = require("sequelize");
-const { getConfigData } = require("./SpringConfigClient");
+const { getConfig } = require("./SpringConfigClient");
 
 let sequelize;
 
-const initSequelize = async () => {
-  if(sequelize) return sequelize;
+const getSequelize = async () => {
+  if(sequelize) {
+    return sequelize;
+  }
 
-  const config = await getConfigData();
+  const config = await getConfig();
 
   sequelize = new Sequelize(
     config["postgreSQL.database"],
@@ -21,4 +24,4 @@ const initSequelize = async () => {
   return sequelize;
 };
 
-module.exports = { initSequelize };
+module.exports = { getSequelize };

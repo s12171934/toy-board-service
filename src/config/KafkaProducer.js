@@ -1,12 +1,13 @@
+//Kafka Event Producer 설정 및 produce function
 const { Kafka } = require('kafkajs');
-const { getConfigData } = require('./SpringConfigClient');
+const { getConfig } = require('./SpringConfigClient');
 
 let globalProducer;
 
 const getProducer = async () => {
   if(globalProducer) return globalProducer;
 
-  const config = await getConfigData();
+  const config = await getConfig();
 
   const kafka = new Kafka({
     clientId: config['kafka.clientId'],
@@ -17,6 +18,7 @@ const getProducer = async () => {
   return globalProducer;
 }
 
+//게시물 삭제시 이벤트 발생
 const produceBoardDelete = async (boards) => {
   const producer = await getProducer();
 

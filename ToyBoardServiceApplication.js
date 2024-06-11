@@ -1,13 +1,13 @@
 (async function(){
   const express = require('express');
   const boardRoutes = require('./src/routes/BoardRoutes');
-  const { createEurekaClient } = require('./src/config/EurekaClientConfig');
-  const { getConfigData } = require('./src/config/SpringConfigClient');
-  const { initSequelize } = require('./src/config/SequelizeConfig');
+  const { getEurekaClient } = require('./src/config/EurekaClientConfig');
+  const { getConfig } = require('./src/config/SpringConfigClient');
+  const { getSequelize } = require('./src/config/SequelizeConfig');
   const { setBoard } = require('./src/models/Board');
   const KafkaConsumer = require('./src/config/KafkaConsumer');
 
-  const config = await getConfigData();
+  const config = await getConfig();
   
   const app = express();
 
@@ -27,11 +27,11 @@
   });
 
   //eureka client 설정
-  const eurekaClient = await createEurekaClient();
-  eurekaClient.start();
+  const eureka = await getEurekaClient();
+  eureka.start();
 
   //sequelize 설정
-  const sequelize = await initSequelize();
+  const sequelize = await getSequelize();
   await setBoard();
   sequelize.sync();
 

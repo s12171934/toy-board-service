@@ -1,14 +1,17 @@
+//Eureka client 설정파일
 const Eureka = require("eureka-js-client").Eureka;
-const { getConfigData } = require("./SpringConfigClient");
+const { getConfig } = require("./SpringConfigClient");
 
-let EurekaClient;
+let eureka;
 
-const createEurekaClient = async () => {
-  if (EurekaClient) return EurekaClient;
+const getEurekaClient = async () => {
+  if (eureka) {
+    return eureka;
+  }
+  
+  const config = await getConfig();
 
-  const config = await getConfigData();
-
-  EurekaClient = new Eureka({
+  eureka = new Eureka({
     instance: {
       app: config["eureka.instance.app"],
       hostName: config["eureka.instance.hostName"],
@@ -33,7 +36,7 @@ const createEurekaClient = async () => {
     },
   });
 
-  return EurekaClient;
+  return eureka;
 };
 
-module.exports = { createEurekaClient };
+module.exports = { getEurekaClient };

@@ -1,14 +1,17 @@
+//Kafka Comsumer 설정 및 consume function
 const { Kafka } = require('kafkajs');
-const { getConfigData } = require('./SpringConfigClient');
+const { getConfig } = require('./SpringConfigClient');
 const { produceBoardDelete } = require('./KafkaProducer');
 const { setBoard } = require('../models/Board');
 
 let globalConsumer;
 
 const getConsumer = async () => {
-  if(globalConsumer) return globalConsumer;
-
-  const config = await getConfigData();
+  if(globalConsumer) {
+    return globalConsumer;
+  }
+  
+  const config = await getConfig();
 
   console.log(config);
 
@@ -21,6 +24,7 @@ const getConsumer = async () => {
   return globalConsumer;
 }
 
+//user 삭제시 해당 user가 작성한 게시글 삭제
 const consumeUserDelete = async () => {
   const Board = await setBoard();
   const consumer = await getConsumer();
@@ -46,6 +50,7 @@ const consumeUserDelete = async () => {
   })
 }
 
+//신고 누적으로 인한 게시물 삭제
 const consumeReportAlert = async () => {
   const Board = await setBoard();
   const consumer = await getConsumer();
